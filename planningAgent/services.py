@@ -11,6 +11,9 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib import colors
 from django.conf import settings
+from datetime import timedelta, date, datetime
+from django.db import transaction
+from django.utils import timezone
 class AvailabilityService:
     """
     The 'AI Agent or function algorithms' responsible for calculating availability
@@ -31,17 +34,19 @@ class AvailabilityService:
         # 1. Determine the Start of the Week (Monday)
         # Note: Monday=0, Sunday=6
         start_week = target_date - timedelta(days=target_date.weekday())
-        end_week = start_week + timedelta(days=6)
 
         # Ensure we are working with timezone-aware datetimes
         start_dt = timezone.make_aware(datetime.combine(start_week, datetime.min.time()))
-        end_dt = timezone.make_aware(datetime.combine(end_week, datetime.max.time()))
+
+        # End time should be the *very end* of Sunday (7 days later)
+        end_dt = start_dt + timedelta(days=7)
 
         # 2. Fetch relevant calendar entries
+        # Events that start before the week ends AND end after the week starts
         entries = CalendarEntry.objects.filter(
             user_profile=self.user_profile,
-            start_time__lte=end_dt,
-            end_time__gte=start_dt
+            start_time__lt=end_dt,
+            end_time__gt=start_dt
         ).order_by('start_time')
 
         # 3. Initialize Availability Grid
@@ -49,25 +54,35 @@ class AvailabilityService:
         availability_grid = [[True] * 24 for _ in range(7)]
         total_busy_hours = 0.0
 
-        # 4. Populate the Grid with Busy Slots
-        for entry in entries:
-            # We iterate through the time range of the entry
-            current_time = entry.start_time
+        # 4. Iterate through every hour of the week and check for overlap
+        current_slot_start = start_dt
 
-            # Use min() to cap iteration at the end of the analysis week
-            # and max() to start at the beginning of the analysis week
-            while current_time < entry.end_time and current_time < end_dt:
-                if current_time >= start_dt:
-                    # Calculate day of week (0=Mon) and hour of day (0-23)
-                    day_index = current_time.weekday()
-                    hour_index = current_time.hour
+        while current_slot_start < end_dt:
+            current_slot_end = current_slot_start + timedelta(hours=1)
 
-                    # Check if this hourly slot is currently marked as available
-                    if availability_grid[day_index][hour_index]:
-                        availability_grid[day_index][hour_index] = False
-                        total_busy_hours += 1.0
+            # Calculate indices for the grid
+            day_index = current_slot_start.weekday()
+            hour_index = current_slot_start.hour
 
-                current_time += timedelta(hours=1)
+            # Check if this slot has already been marked busy (shouldn't happen with this loop structure,
+            # but good practice if using a different calculation method later)
+            if availability_grid[day_index][hour_index]:
+
+                # Check for overlap: Is any event active during the slot [current_slot_start, current_slot_end)?
+                is_busy = False
+                for entry in entries:
+                    # Overlap condition: (A_start < B_end) AND (A_end > B_start)
+                    # A = Event time, B = Slot time
+                    if entry.start_time < current_slot_end and entry.end_time > current_slot_start:
+                        is_busy = True
+                        break # Found one overlapping event, slot is busy.
+
+                if is_busy:
+                    availability_grid[day_index][hour_index] = False
+                    total_busy_hours += 1.0
+
+            # Move to the next hourly slot
+            current_slot_start = current_slot_end
 
         # 5. Save the Report and Details atomically
         with transaction.atomic():
@@ -80,7 +95,9 @@ class AvailabilityService:
             report = AvailabilityReport.objects.create(
                 user_profile=self.user_profile,
                 start_week=start_week,
-                end_week=end_week,
+                # The week ends on the *day* before the start_dt + 7 days
+                end_week=start_dt.date() + timedelta(days=6),
+                total_hours=total_hours_in_week,
                 total_available_hours=total_available_hours,
                 availability_ratio=availability_ratio
             )

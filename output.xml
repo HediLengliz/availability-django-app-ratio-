@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.13.2 on win32)" generated="2025-09-27T00:18:01.521443" rpa="false" schemaversion="5">
+<suite id="s1" name="Api Use Cases" source="C:\Users\hedi2\Documents\5eme\AI\planningAgent\planningAgent\tests\api_use_cases.robot">
+<test id="s1-t1" name="Test Use Case 1: User Registration and Profile Creation" line="19">
+<kw name="Create User Session" owner="common_keywords">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:18:01.591665" level="INFO">Creating Session using : alias=planning_session, url=http://127.0.0.1:8000/api/v1, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<arg>${ALIAS}</arg>
+<arg>${URL}</arg>
+<arg>verify=True</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-09-27T00:18:01.591542" elapsed="0.000229"/>
+</kw>
+<arg>${SESSION_ALIAS}</arg>
+<arg>${BASE_URL}</arg>
+<status status="PASS" start="2025-09-27T00:18:01.591152" elapsed="0.000673"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:18:01.592176" level="INFO">${HEADER} = {'Content-Type': 'application/json'}</msg>
+<var>${HEADER}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:18:01.592000" elapsed="0.000194"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:18:01.592570" level="INFO">${PAYLOAD} = {'username': 'testuser_Generate Random String 8 [NUMBERS][LOWER]', 'email': 'test_Generate Random String 8 [NUMBERS][LOWER]@robot.com', 'password': 'ApiTestPass123', 'first_name': 'Robot', 'last_name'...</msg>
+<var>${PAYLOAD}</var>
+<arg>username=${TEST_USER}</arg>
+<arg>email=${TEST_EMAIL}</arg>
+<arg>password=${TEST_PASS}</arg>
+<arg>first_name=Robot</arg>
+<arg>last_name=Tester</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:18:01.592384" elapsed="0.000206"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:18:01.600263" level="INFO">POST Request : url=http://127.0.0.1:8000/api/v1/auth/register/ 
+ path_url=/api/v1/auth/register/ 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '211'} 
+ body=b'{"username": "testuser_Generate Random String 8 [NUMBERS][LOWER]", "email": "test_Generate Random String 8 [NUMBERS][LOWER]@robot.com", "password": "ApiTestPass123", "first_name": "Robot", "last_name": "Tester"}' 
+ </msg>
+<msg time="2025-09-27T00:18:01.600339" level="INFO">POST Response : url=http://127.0.0.1:8000/api/v1/auth/register/ 
+ status=400, reason=Bad Request 
+ headers={'Date': 'Fri, 26 Sep 2025 23:18:01 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'POST, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '153', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"username":["Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters."],"email":["Enter a valid email address."]} 
+ </msg>
+<msg time="2025-09-27T00:18:01.600438" level="FAIL">HTTPError: 400 Client Error: Bad Request for url: http://127.0.0.1:8000/api/v1/auth/register/</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/auth/register/</arg>
+<arg>json=${PAYLOAD}</arg>
+<arg>headers=${HEADER}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2025-09-27T00:18:01.592789" elapsed="0.008932">HTTPError: 400 Client Error: Bad Request for url: http://127.0.0.1:8000/api/v1/auth/register/</status>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.601996" elapsed="0.000021"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${RESPONSE.json()}</arg>
+<arg>id</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.602168" elapsed="0.000019"/>
+</kw>
+<status status="FAIL" start="2025-09-27T00:18:01.590715" elapsed="0.011615">HTTPError: 400 Client Error: Bad Request for url: http://127.0.0.1:8000/api/v1/auth/register/</status>
+</test>
+<test id="s1-t2" name="Test Use Case 2: Local User Login" line="27">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:18:01.602862" level="INFO">${HEADER} = {'Content-Type': 'application/json'}</msg>
+<var>${HEADER}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:18:01.602740" elapsed="0.000144"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:18:01.603152" level="INFO">${PAYLOAD} = {'username': 'testuser_Generate Random String 8 [NUMBERS][LOWER]', 'password': 'ApiTestPass123'}</msg>
+<var>${PAYLOAD}</var>
+<arg>username=${TEST_USER}</arg>
+<arg>password=${TEST_PASS}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:18:01.602980" elapsed="0.000193"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:18:01.934259" level="INFO">POST Request : url=http://127.0.0.1:8000/api/v1/auth/login/ 
+ path_url=/api/v1/auth/login/ 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '96'} 
+ body=b'{"username": "testuser_Generate Random String 8 [NUMBERS][LOWER]", "password": "ApiTestPass123"}' 
+ </msg>
+<msg time="2025-09-27T00:18:01.934327" level="INFO">POST Response : url=http://127.0.0.1:8000/api/v1/auth/login/ 
+ status=401, reason=Unauthorized 
+ headers={'Date': 'Fri, 26 Sep 2025 23:18:01 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'POST, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '32', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"detail":"Invalid credentials"} 
+ </msg>
+<msg time="2025-09-27T00:18:01.934425" level="FAIL">HTTPError: 401 Client Error: Unauthorized for url: http://127.0.0.1:8000/api/v1/auth/login/</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/auth/login/</arg>
+<arg>json=${PAYLOAD}</arg>
+<arg>headers=${HEADER}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2025-09-27T00:18:01.603271" elapsed="0.331900">HTTPError: 401 Client Error: Unauthorized for url: http://127.0.0.1:8000/api/v1/auth/login/</status>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.935483" elapsed="0.000020"/>
+</kw>
+<status status="FAIL" start="2025-09-27T00:18:01.602550" elapsed="0.333262">HTTPError: 401 Client Error: Unauthorized for url: http://127.0.0.1:8000/api/v1/auth/login/</status>
+</test>
+<test id="s1-t3" name="Test Use Case 3: Create Calendar Entry (CRUD C)" line="33">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:18:01.936941" level="INFO">${HEADER} = {'Content-Type': 'application/json'}</msg>
+<var>${HEADER}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:18:01.936749" elapsed="0.000220"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:18:01.937533" level="INFO">${PAYLOAD} = {'category': 'MEET', 'title': 'Weekly Standup', 'start_time': '2025-10-06T10:00:00Z', 'end_time': '2025-10-06T11:00:00Z'}</msg>
+<var>${PAYLOAD}</var>
+<arg>category=MEET</arg>
+<arg>title=Weekly Standup</arg>
+<arg>start_time=${TODAY_DATE}T10:00:00Z</arg>
+<arg>end_time=${TODAY_DATE}T11:00:00Z</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:18:01.937141" elapsed="0.000420"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:18:01.939949" level="INFO">POST Request : url=http://127.0.0.1:8000/api/v1/calendar/ 
+ path_url=/api/v1/calendar/ 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '121'} 
+ body=b'{"category": "MEET", "title": "Weekly Standup", "start_time": "2025-10-06T10:00:00Z", "end_time": "2025-10-06T11:00:00Z"}' 
+ </msg>
+<msg time="2025-09-27T00:18:01.940015" level="INFO">POST Response : url=http://127.0.0.1:8000/api/v1/calendar/ 
+ status=403, reason=Forbidden 
+ headers={'Date': 'Fri, 26 Sep 2025 23:18:01 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'GET, POST, HEAD, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '58', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"detail":"Authentication credentials were not provided."} 
+ </msg>
+<msg time="2025-09-27T00:18:01.940113" level="FAIL">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/calendar/</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/calendar/</arg>
+<arg>json=${PAYLOAD}</arg>
+<arg>headers=${HEADER}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2025-09-27T00:18:01.937752" elapsed="0.003193">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/calendar/</status>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.941165" elapsed="0.000025"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${RESPONSE.json()}</arg>
+<arg>id</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.941357" elapsed="0.000022"/>
+</kw>
+<status status="FAIL" start="2025-09-27T00:18:01.936405" elapsed="0.005178">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/calendar/</status>
+</test>
+<test id="s1-t4" name="Test Use Case 4: Calculate Availability Report" line="40">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:18:01.942464" level="INFO">${HEADER} = {'Content-Type': 'application/json'}</msg>
+<var>${HEADER}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:18:01.942289" elapsed="0.000202"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:18:01.942857" level="INFO">${PAYLOAD} = {'date': '2025-10-06'}</msg>
+<var>${PAYLOAD}</var>
+<arg>date=${TODAY_DATE}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:18:01.942667" elapsed="0.000222"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:18:01.945554" level="INFO">POST Request : url=http://127.0.0.1:8000/api/v1/availability/calculate/ 
+ path_url=/api/v1/availability/calculate/ 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '22'} 
+ body=b'{"date": "2025-10-06"}' 
+ </msg>
+<msg time="2025-09-27T00:18:01.945622" level="INFO">POST Response : url=http://127.0.0.1:8000/api/v1/availability/calculate/ 
+ status=403, reason=Forbidden 
+ headers={'Date': 'Fri, 26 Sep 2025 23:18:01 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'POST, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '58', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"detail":"Authentication credentials were not provided."} 
+ </msg>
+<msg time="2025-09-27T00:18:01.945720" level="FAIL">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/availability/calculate/</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/availability/calculate/</arg>
+<arg>json=${PAYLOAD}</arg>
+<arg>headers=${HEADER}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2025-09-27T00:18:01.943055" elapsed="0.003480">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/availability/calculate/</status>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.946755" elapsed="0.000024"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<arg>${REPORT_ID}</arg>
+<arg>${RESPONSE.json()['id']}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.946948" elapsed="0.000020"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${RESPONSE.json()['total_available_hours']} &lt; 168.0</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.947114" elapsed="0.000020"/>
+</kw>
+<status status="FAIL" start="2025-09-27T00:18:01.941949" elapsed="0.005381">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/availability/calculate/</status>
+</test>
+<test id="s1-t5" name="Test Use Case 5: Export Report as CSV" line="48">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:18:01.950509" level="INFO">GET Request : url=http://127.0.0.1:8000/api/v1/availability/export-csv/ 
+ path_url=/api/v1/availability/export-csv/ 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2025-09-27T00:18:01.950582" level="INFO">GET Response : url=http://127.0.0.1:8000/api/v1/availability/export-csv/ 
+ status=403, reason=Forbidden 
+ headers={'Date': 'Fri, 26 Sep 2025 23:18:01 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'GET, HEAD, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '58', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"detail":"Authentication credentials were not provided."} 
+ </msg>
+<msg time="2025-09-27T00:18:01.950692" level="FAIL">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/availability/export-csv/</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/availability/${REPORT_ID}/export-csv/</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2025-09-27T00:18:01.948012" elapsed="0.003590">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/availability/export-csv/</status>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.951779" elapsed="0.000021"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${RESPONSE.headers}</arg>
+<arg>text/csv</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.952060" elapsed="0.000168"/>
+</kw>
+<status status="FAIL" start="2025-09-27T00:18:01.947683" elapsed="0.004712">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/availability/export-csv/</status>
+</test>
+<test id="s1-t6" name="Test Use Case 6: Export Report as PDF" line="53">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:18:01.956674" level="INFO">GET Request : url=http://127.0.0.1:8000/api/v1/availability/export-pdf/ 
+ path_url=/api/v1/availability/export-pdf/ 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2025-09-27T00:18:01.956728" level="INFO">GET Response : url=http://127.0.0.1:8000/api/v1/availability/export-pdf/ 
+ status=403, reason=Forbidden 
+ headers={'Date': 'Fri, 26 Sep 2025 23:18:01 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'GET, HEAD, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '58', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"detail":"Authentication credentials were not provided."} 
+ </msg>
+<msg time="2025-09-27T00:18:01.956796" level="FAIL">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/availability/export-pdf/</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/availability/${REPORT_ID}/export-pdf/</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2025-09-27T00:18:01.954363" elapsed="0.002932">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/availability/export-pdf/</status>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.957700" elapsed="0.000020"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${RESPONSE.headers}</arg>
+<arg>application/pdf</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="NOT RUN" start="2025-09-27T00:18:01.957871" elapsed="0.000066"/>
+</kw>
+<status status="FAIL" start="2025-09-27T00:18:01.952663" elapsed="0.005780">HTTPError: 403 Client Error: Forbidden for url: http://127.0.0.1:8000/api/v1/availability/export-pdf/</status>
+</test>
+<status status="FAIL" start="2025-09-27T00:18:01.522972" elapsed="0.436007"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="6" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Api Use Cases" id="s1" pass="0" fail="6" skip="0">Api Use Cases</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
