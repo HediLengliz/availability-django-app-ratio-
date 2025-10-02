@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.13.2 on win32)" generated="2025-09-27T00:48:04.141591" rpa="false" schemaversion="5">
+<suite id="s1" name="Api Use Cases" source="C:\Users\hedi2\Documents\5eme\AI\planningAgent\planningAgent\tests\api_use_cases.robot">
+<test id="s1-t1" name="Test Use Case 1: User Registration and Profile Creation" line="16">
+<kw name="Generate Random String" owner="String">
+<msg time="2025-09-27T00:48:04.496156" level="INFO">${RANDOM_ID} = k3clop6f</msg>
+<var>${RANDOM_ID}</var>
+<arg>8</arg>
+<arg>[NUMBERS][LOWER]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.495906" elapsed="0.001345"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.497586" level="INFO">${TEST_USER} = testuser_k3clop6f</msg>
+<var>${TEST_USER}</var>
+<arg>testuser_${RANDOM_ID}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.497399" elapsed="0.000238"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.497862" level="INFO">${TEST_EMAIL} = test_k3clop6f@robot.com</msg>
+<var>${TEST_EMAIL}</var>
+<arg>test_${RANDOM_ID}@robot.com</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.497731" elapsed="0.000173"/>
+</kw>
+<kw name="Create User Session" owner="common_keywords">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:48:04.498406" level="INFO">Creating Session using : alias=planning_session, url=http://127.0.0.1:8000/api/v1, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<arg>${ALIAS}</arg>
+<arg>${URL}</arg>
+<arg>verify=True</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-09-27T00:48:04.498252" elapsed="0.000294"/>
+</kw>
+<arg>${SESSION_ALIAS}</arg>
+<arg>${BASE_URL}</arg>
+<status status="PASS" start="2025-09-27T00:48:04.498016" elapsed="0.000590"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.498875" level="INFO">${HEADER} = {'Content-Type': 'application/json'}</msg>
+<var>${HEADER}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.498686" elapsed="0.000229"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.499202" level="INFO">${PAYLOAD} = {'username': 'testuser_k3clop6f', 'email': 'test_k3clop6f@robot.com', 'password': 'ApiTestPass123', 'first_name': 'Robot', 'last_name': 'Tester'}</msg>
+<var>${PAYLOAD}</var>
+<arg>username=${TEST_USER}</arg>
+<arg>email=${TEST_EMAIL}</arg>
+<arg>password=${TEST_PASS}</arg>
+<arg>first_name=Robot</arg>
+<arg>last_name=Tester</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.499000" elapsed="0.000240"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:48:04.849958" level="INFO">POST Request : url=http://127.0.0.1:8000/api/v1/auth/register/ 
+ path_url=/api/v1/auth/register/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '145'} 
+ body=b'{"username": "testuser_k3clop6f", "email": "test_k3clop6f@robot.com", "password": "ApiTestPass123", "first_name": "Robot", "last_name": "Tester"}' 
+ </msg>
+<msg time="2025-09-27T00:48:04.850109" level="INFO">POST Response : url=http://127.0.0.1:8000/api/v1/auth/register/ 
+ status=201, reason=Created 
+ headers={'Date': 'Fri, 26 Sep 2025 23:48:04 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'POST, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '128', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"message":"User created successfully. Please log in.","id":15,"username":"testuser_k3clop6f","email":"test_k3clop6f@robot.com"} 
+ </msg>
+<msg time="2025-09-27T00:48:04.850226" level="INFO">${RESPONSE} = &lt;Response [201]&gt;</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/auth/register/</arg>
+<arg>json=${PAYLOAD}</arg>
+<arg>headers=${HEADER}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.499316" elapsed="0.350948"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.850759" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${RESPONSE.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.850380" elapsed="0.000462"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${RESPONSE.json()}</arg>
+<arg>id</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.850935" elapsed="0.000357"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.851527" level="INFO">${TEST_USER} = testuser_k3clop6f</msg>
+<arg>${TEST_USER}</arg>
+<arg>${TEST_USER}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.851386" elapsed="0.000190"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.851763" level="INFO">${TEST_EMAIL} = test_k3clop6f@robot.com</msg>
+<arg>${TEST_EMAIL}</arg>
+<arg>${TEST_EMAIL}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.851650" elapsed="0.000156"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.851995" level="INFO">${TEST_PASS} = ApiTestPass123</msg>
+<arg>${TEST_PASS}</arg>
+<arg>${TEST_PASS}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.851880" elapsed="0.000157"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.852426" level="INFO">${TEST_FIRST_NAME} = Robot</msg>
+<arg>${TEST_FIRST_NAME}</arg>
+<arg>Robot</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.852106" elapsed="0.000365"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.852860" level="INFO">${TEST_LAST_NAME} = Tester</msg>
+<arg>${TEST_LAST_NAME}</arg>
+<arg>Tester</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.852540" elapsed="0.000371"/>
+</kw>
+<status status="PASS" start="2025-09-27T00:48:04.495374" elapsed="0.357613"/>
+</test>
+<test id="s1-t2" name="Test Use Case 2: Local User Login" line="32">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.853606" level="INFO">${HEADER} = {'Content-Type': 'application/json'}</msg>
+<var>${HEADER}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.853472" elapsed="0.000175"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:48:04.854099" level="INFO">${PAYLOAD} = {'username': 'testuser_k3clop6f', 'password': 'ApiTestPass123'}</msg>
+<var>${PAYLOAD}</var>
+<arg>username=${TEST_USER}</arg>
+<arg>password=${TEST_PASS}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.853730" elapsed="0.000419"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:48:05.246247" level="INFO">POST Request : url=http://127.0.0.1:8000/api/v1/auth/login/ 
+ path_url=/api/v1/auth/login/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '63'} 
+ body=b'{"username": "testuser_k3clop6f", "password": "ApiTestPass123"}' 
+ </msg>
+<msg time="2025-09-27T00:48:05.246395" level="INFO">POST Response : url=http://127.0.0.1:8000/api/v1/auth/login/ 
+ status=200, reason=OK 
+ headers={'Date': 'Fri, 26 Sep 2025 23:48:05 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'POST, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '61', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin', 'Set-Cookie': 'csrftoken=GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8; expires=Fri, 25 Sep 2026 23:48:05 GMT; Max-Age=31449600; Path=/; SameSite=Lax, sessionid=yzg2kbotw6yitckphay8yacfllz42glr; expires=Fri, 10 Oct 2025 23:48:05 GMT; HttpOnly; Max-Age=1209600; Path=/; SameSite=Lax'} 
+ body={"message":"Login successful","username":"testuser_k3clop6f"} 
+ </msg>
+<msg time="2025-09-27T00:48:05.246516" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/auth/login/</arg>
+<arg>json=${PAYLOAD}</arg>
+<arg>headers=${HEADER}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-27T00:48:04.854336" elapsed="0.392220"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.247012" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${RESPONSE.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.246676" elapsed="0.000402"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${RESPONSE.json()}</arg>
+<arg>message</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.247170" elapsed="0.000281"/>
+</kw>
+<kw name="Extract CSRF Token From Response" owner="common_keywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.247967" level="INFO">${CSRF_TOKEN} = GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8</msg>
+<var>${CSRF_TOKEN}</var>
+<arg>$RESPONSE.cookies.get('csrftoken')</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.247759" elapsed="0.000255"/>
+</kw>
+<return>
+<value>${CSRF_TOKEN}</value>
+<status status="PASS" start="2025-09-27T00:48:05.248065" elapsed="0.000064"/>
+</return>
+<msg time="2025-09-27T00:48:05.248222" level="INFO">${CSRF_TOKEN} = GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8</msg>
+<var>${CSRF_TOKEN}</var>
+<arg>${RESPONSE}</arg>
+<doc>Extracts the 'csrftoken' value from the cookies of a Response object.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.247571" elapsed="0.000685"/>
+</kw>
+<kw name="Create Headers With CSRF" owner="common_keywords">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.248677" level="INFO">${HEADER} = {'Content-Type': 'application/json', 'X-CSRFToken': 'GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8'}</msg>
+<var>${HEADER}</var>
+<arg>Content-Type=application/json</arg>
+<arg>X-CSRFToken=${CSRF_TOKEN}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.248530" elapsed="0.000185"/>
+</kw>
+<return>
+<value>${HEADER}</value>
+<status status="PASS" start="2025-09-27T00:48:05.248759" elapsed="0.000044"/>
+</return>
+<msg time="2025-09-27T00:48:05.248887" level="INFO">${CSRF_HEADER} = {'Content-Type': 'application/json', 'X-CSRFToken': 'GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8'}</msg>
+<var>${CSRF_HEADER}</var>
+<arg>${CSRF_TOKEN}</arg>
+<status status="PASS" start="2025-09-27T00:48:05.248358" elapsed="0.000566"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.249108" level="INFO">${CSRF_HEADER} = {'Content-Type': 'application/json', 'X-CSRFToken': 'GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8'}</msg>
+<arg>${CSRF_HEADER}</arg>
+<arg>${CSRF_HEADER}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.248996" elapsed="0.000150"/>
+</kw>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:48:05.253961" level="INFO">GET Request : url=http://127.0.0.1:8000/api/v1/profile/ 
+ path_url=/api/v1/profile/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Cookie': 'csrftoken=GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8; sessionid=yzg2kbotw6yitckphay8yacfllz42glr'} 
+ body=None 
+ </msg>
+<msg time="2025-09-27T00:48:05.254062" level="INFO">GET Response : url=http://127.0.0.1:8000/api/v1/profile/ 
+ status=200, reason=OK 
+ headers={'Date': 'Fri, 26 Sep 2025 23:48:05 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'GET, HEAD, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '135', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"username":"testuser_k3clop6f","email":"test_k3clop6f@robot.com","profile":{"first_name":"","last_name":"","age":null,"telephone":""}} 
+ </msg>
+<msg time="2025-09-27T00:48:05.254150" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/profile/</arg>
+<arg>headers=${HEADER}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.249210" elapsed="0.004971"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.254576" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${RESPONSE.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.254279" elapsed="0.000348"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.json()['username']}</arg>
+<arg>${TEST_USER}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.254710" elapsed="0.000282"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.json()['email']}</arg>
+<arg>${TEST_EMAIL}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.255070" elapsed="0.000278"/>
+</kw>
+<status status="PASS" start="2025-09-27T00:48:04.853253" elapsed="0.402175"/>
+</test>
+<test id="s1-t3" name="Test Use Case 3: Create Calendar Entry (CRUD C)" line="52">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.256007" level="INFO">${PAYLOAD} = {'category': 'MEET', 'title': 'Weekly Standup', 'start_time': '2025-10-06T10:00:00Z', 'end_time': '2025-10-06T11:00:00Z'}</msg>
+<var>${PAYLOAD}</var>
+<arg>category=MEET</arg>
+<arg>title=Weekly Standup</arg>
+<arg>start_time=${TODAY_DATE}T10:00:00Z</arg>
+<arg>end_time=${TODAY_DATE}T11:00:00Z</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.255811" elapsed="0.000239"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:48:05.266191" level="INFO">POST Request : url=http://127.0.0.1:8000/api/v1/calendar/ 
+ path_url=/api/v1/calendar/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'X-CSRFToken': 'GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8', 'Cookie': 'csrftoken=GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8; sessionid=yzg2kbotw6yitckphay8yacfllz42glr', 'Content-Length': '121'} 
+ body=b'{"category": "MEET", "title": "Weekly Standup", "start_time": "2025-10-06T10:00:00Z", "end_time": "2025-10-06T11:00:00Z"}' 
+ </msg>
+<msg time="2025-09-27T00:48:05.266420" level="INFO">POST Response : url=http://127.0.0.1:8000/api/v1/calendar/ 
+ status=201, reason=Created 
+ headers={'Date': 'Fri, 26 Sep 2025 23:48:05 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'GET, POST, HEAD, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '168', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"id":6,"category":"MEET","category_display":"Meeting","title":"Weekly Standup","start_time":"2025-10-06T10:00:00Z","end_time":"2025-10-06T11:00:00Z","user_profile":14} 
+ </msg>
+<msg time="2025-09-27T00:48:05.266546" level="INFO">${RESPONSE} = &lt;Response [201]&gt;</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/calendar/</arg>
+<arg>json=${PAYLOAD}</arg>
+<arg>headers=${CSRF_HEADER}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.256130" elapsed="0.010450"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.267086" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${RESPONSE.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.266738" elapsed="0.000415"/>
+</kw>
+<kw name="Dictionary Should Contain Key" owner="Collections">
+<arg>${RESPONSE.json()}</arg>
+<arg>id</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.267248" elapsed="0.000295"/>
+</kw>
+<status status="PASS" start="2025-09-27T00:48:05.255566" elapsed="0.012059"/>
+</test>
+<test id="s1-t4" name="Test Use Case 4: Calculate Availability Report" line="59">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.268593" level="INFO">${PAYLOAD} = {'date': '2025-10-06'}</msg>
+<var>${PAYLOAD}</var>
+<arg>date=${TODAY_DATE}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.268285" elapsed="0.000385"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:48:05.292231" level="INFO">POST Request : url=http://127.0.0.1:8000/api/v1/availability/calculate/ 
+ path_url=/api/v1/availability/calculate/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'X-CSRFToken': 'GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8', 'Cookie': 'csrftoken=GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8; sessionid=yzg2kbotw6yitckphay8yacfllz42glr', 'Content-Length': '22'} 
+ body=b'{"date": "2025-10-06"}' 
+ </msg>
+<msg time="2025-09-27T00:48:05.292386" level="INFO">POST Response : url=http://127.0.0.1:8000/api/v1/availability/calculate/ 
+ status=201, reason=Created 
+ headers={'Date': 'Fri, 26 Sep 2025 23:48:05 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/json', 'Vary': 'Accept, Cookie', 'Allow': 'POST, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '9376', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"id":4,"start_week":"2025-10-06","end_week":"2025-10-12","total_hours":"168.00","total_available_hours":"167.00","availability_ratio":"0.994","created_at":"2025-09-26T23:48:05.275502Z","hourly_details":[{"day_of_week":0,"hour_of_day":0,"is_available":true},{"day_of_week":0,"hour_of_day":1,"is_available":true},{"day_of_week":0,"hour_of_day":2,"is_available":true},{"day_of_week":0,"hour_of_day":3,"is_available":true},{"day_of_week":0,"hour_of_day":4,"is_available":true},{"day_of_week":0,"hour_of_day":5,"is_available":true},{"day_of_week":0,"hour_of_day":6,"is_available":true},{"day_of_week":0,"hour_of_day":7,"is_available":true},{"day_of_week":0,"hour_of_day":8,"is_available":true},{"day_of_week":0,"hour_of_day":9,"is_available":true},{"day_of_week":0,"hour_of_day":10,"is_available":false},{"day_of_week":0,"hour_of_day":11,"is_available":true},{"day_of_week":0,"hour_of_day":12,"is_available":true},{"day_of_week":0,"hour_of_day":13,"is_available":true},{"day_of_week":0,"hour_of_day":14,"is_available":true},{"day_of_week":0,"hour_of_day":15,"is_available":true},{"day_of_week":0,"hour_of_day":16,"is_available":true},{"day_of_week":0,"hour_of_day":17,"is_available":true},{"day_of_week":0,"hour_of_day":18,"is_available":true},{"day_of_week":0,"hour_of_day":19,"is_available":true},{"day_of_week":0,"hour_of_day":20,"is_available":true},{"day_of_week":0,"hour_of_day":21,"is_available":true},{"day_of_week":0,"hour_of_day":22,"is_available":true},{"day_of_week":0,"hour_of_day":23,"is_available":true},{"day_of_week":1,"hour_of_day":0,"is_available":true},{"day_of_week":1,"hour_of_day":1,"is_available":true},{"day_of_week":1,"hour_of_day":2,"is_available":true},{"day_of_week":1,"hour_of_day":3,"is_available":true},{"day_of_week":1,"hour_of_day":4,"is_available":true},{"day_of_week":1,"hour_of_day":5,"is_available":true},{"day_of_week":1,"hour_of_day":6,"is_available":true},{"day_of_week":1,"hour_of_day":7,"is_available":true},{"day_of_week":1,"hour_of_day":8,"is_available":true},{"day_of_week":1,"hour_of_day":9,"is_available":true},{"day_of_week":1,"hour_of_day":10,"is_available":true},{"day_of_week":1,"hour_of_day":11,"is_available":true},{"day_of_week":1,"hour_of_day":12,"is_available":true},{"day_of_week":1,"hour_of_day":13,"is_available":true},{"day_of_week":1,"hour_of_day":14,"is_available":true},{"day_of_week":1,"hour_of_day":15,"is_available":true},{"day_of_week":1,"hour_of_day":16,"is_available":true},{"day_of_week":1,"hour_of_day":17,"is_available":true},{"day_of_week":1,"hour_of_day":18,"is_available":true},{"day_of_week":1,"hour_of_day":19,"is_available":true},{"day_of_week":1,"hour_of_day":20,"is_available":true},{"day_of_week":1,"hour_of_day":21,"is_available":true},{"day_of_week":1,"hour_of_day":22,"is_available":true},{"day_of_week":1,"hour_of_day":23,"is_available":true},{"day_of_week":2,"hour_of_day":0,"is_available":true},{"day_of_week":2,"hour_of_day":1,"is_available":true},{"day_of_week":2,"hour_of_day":2,"is_available":true},{"day_of_week":2,"hour_of_day":3,"is_available":true},{"day_of_week":2,"hour_of_day":4,"is_available":true},{"day_of_week":2,"hour_of_day":5,"is_available":true},{"day_of_week":2,"hour_of_day":6,"is_available":true},{"day_of_week":2,"hour_of_day":7,"is_available":true},{"day_of_week":2,"hour_of_day":8,"is_available":true},{"day_of_week":2,"hour_of_day":9,"is_available":true},{"day_of_week":2,"hour_of_day":10,"is_available":true},{"day_of_week":2,"hour_of_day":11,"is_available":true},{"day_of_week":2,"hour_of_day":12,"is_available":true},{"day_of_week":2,"hour_of_day":13,"is_available":true},{"day_of_week":2,"hour_of_day":14,"is_available":true},{"day_of_week":2,"hour_of_day":15,"is_available":true},{"day_of_week":2,"hour_of_day":16,"is_available":true},{"day_of_week":2,"hour_of_day":17,"is_available":true},{"day_of_week":2,"hour_of_day":18,"is_available":true},{"day_of_week":2,"hour_of_day":19,"is_available":true},{"day_of_week":2,"hour_of_day":20,"is_available":true},{"day_of_week":2,"hour_of_day":21,"is_available":true},{"day_of_week":2,"hour_of_day":22,"is_available":true},{"day_of_week":2,"hour_of_day":23,"is_available":true},{"day_of_week":3,"hour_of_day":0,"is_available":true},{"day_of_week":3,"hour_of_day":1,"is_available":true},{"day_of_week":3,"hour_of_day":2,"is_available":true},{"day_of_week":3,"hour_of_day":3,"is_available":true},{"day_of_week":3,"hour_of_day":4,"is_available":true},{"day_of_week":3,"hour_of_day":5,"is_available":true},{"day_of_week":3,"hour_of_day":6,"is_available":true},{"day_of_week":3,"hour_of_day":7,"is_available":true},{"day_of_week":3,"hour_of_day":8,"is_available":true},{"day_of_week":3,"hour_of_day":9,"is_available":true},{"day_of_week":3,"hour_of_day":10,"is_available":true},{"day_of_week":3,"hour_of_day":11,"is_available":true},{"day_of_week":3,"hour_of_day":12,"is_available":true},{"day_of_week":3,"hour_of_day":13,"is_available":true},{"day_of_week":3,"hour_of_day":14,"is_available":true},{"day_of_week":3,"hour_of_day":15,"is_available":true},{"day_of_week":3,"hour_of_day":16,"is_available":true},{"day_of_week":3,"hour_of_day":17,"is_available":true},{"day_of_week":3,"hour_of_day":18,"is_available":true},{"day_of_week":3,"hour_of_day":19,"is_available":true},{"day_of_week":3,"hour_of_day":20,"is_available":true},{"day_of_week":3,"hour_of_day":21,"is_available":true},{"day_of_week":3,"hour_of_day":22,"is_available":true},{"day_of_week":3,"hour_of_day":23,"is_available":true},{"day_of_week":4,"hour_of_day":0,"is_available":true},{"day_of_week":4,"hour_of_day":1,"is_available":true},{"day_of_week":4,"hour_of_day":2,"is_available":true},{"day_of_week":4,"hour_of_day":3,"is_available":true},{"day_of_week":4,"hour_of_day":4,"is_available":true},{"day_of_week":4,"hour_of_day":5,"is_available":true},{"day_of_week":4,"hour_of_day":6,"is_available":true},{"day_of_week":4,"hour_of_day":7,"is_available":true},{"day_of_week":4,"hour_of_day":8,"is_available":true},{"day_of_week":4,"hour_of_day":9,"is_available":true},{"day_of_week":4,"hour_of_day":10,"is_available":true},{"day_of_week":4,"hour_of_day":11,"is_available":true},{"day_of_week":4,"hour_of_day":12,"is_available":true},{"day_of_week":4,"hour_of_day":13,"is_available":true},{"day_of_week":4,"hour_of_day":14,"is_available":true},{"day_of_week":4,"hour_of_day":15,"is_available":true},{"day_of_week":4,"hour_of_day":16,"is_available":true},{"day_of_week":4,"hour_of_day":17,"is_available":true},{"day_of_week":4,"hour_of_day":18,"is_available":true},{"day_of_week":4,"hour_of_day":19,"is_available":true},{"day_of_week":4,"hour_of_day":20,"is_available":true},{"day_of_week":4,"hour_of_day":21,"is_available":true},{"day_of_week":4,"hour_of_day":22,"is_available":true},{"day_of_week":4,"hour_of_day":23,"is_available":true},{"day_of_week":5,"hour_of_day":0,"is_available":true},{"day_of_week":5,"hour_of_day":1,"is_available":true},{"day_of_week":5,"hour_of_day":2,"is_available":true},{"day_of_week":5,"hour_of_day":3,"is_available":true},{"day_of_week":5,"hour_of_day":4,"is_available":true},{"day_of_week":5,"hour_of_day":5,"is_available":true},{"day_of_week":5,"hour_of_day":6,"is_available":true},{"day_of_week":5,"hour_of_day":7,"is_available":true},{"day_of_week":5,"hour_of_day":8,"is_available":true},{"day_of_week":5,"hour_of_day":9,"is_available":true},{"day_of_week":5,"hour_of_day":10,"is_available":true},{"day_of_week":5,"hour_of_day":11,"is_available":true},{"day_of_week":5,"hour_of_day":12,"is_available":true},{"day_of_week":5,"hour_of_day":13,"is_available":true},{"day_of_week":5,"hour_of_day":14,"is_available":true},{"day_of_week":5,"hour_of_day":15,"is_available":true},{"day_of_week":5,"hour_of_day":16,"is_available":true},{"day_of_week":5,"hour_of_day":17,"is_available":true},{"day_of_week":5,"hour_of_day":18,"is_available":true},{"day_of_week":5,"hour_of_day":19,"is_available":true},{"day_of_week":5,"hour_of_day":20,"is_available":true},{"day_of_week":5,"hour_of_day":21,"is_available":true},{"day_of_week":5,"hour_of_day":22,"is_available":true},{"day_of_week":5,"hour_of_day":23,"is_available":true},{"day_of_week":6,"hour_of_day":0,"is_available":true},{"day_of_week":6,"hour_of_day":1,"is_available":true},{"day_of_week":6,"hour_of_day":2,"is_available":true},{"day_of_week":6,"hour_of_day":3,"is_available":true},{"day_of_week":6,"hour_of_day":4,"is_available":true},{"day_of_week":6,"hour_of_day":5,"is_available":true},{"day_of_week":6,"hour_of_day":6,"is_available":true},{"day_of_week":6,"hour_of_day":7,"is_available":true},{"day_of_week":6,"hour_of_day":8,"is_available":true},{"day_of_week":6,"hour_of_day":9,"is_available":true},{"day_of_week":6,"hour_of_day":10,"is_available":true},{"day_of_week":6,"hour_of_day":11,"is_available":true},{"day_of_week":6,"hour_of_day":12,"is_available":true},{"day_of_week":6,"hour_of_day":13,"is_available":true},{"day_of_week":6,"hour_of_day":14,"is_available":true},{"day_of_week":6,"hour_of_day":15,"is_available":true},{"day_of_week":6,"hour_of_day":16,"is_available":true},{"day_of_week":6,"hour_of_day":17,"is_available":true},{"day_of_week":6,"hour_of_day":18,"is_available":true},{"day_of_week":6,"hour_of_day":19,"is_available":true},{"day_of_week":6,"hour_of_day":20,"is_available":true},{"day_of_week":6,"hour_of_day":21,"is_available":true},{"day_of_week":6,"hour_of_day":22,"is_available":true},{"day_of_week":6,"hour_of_day":23,"is_available":true}]} 
+ </msg>
+<msg time="2025-09-27T00:48:05.292681" level="INFO">${RESPONSE} = &lt;Response [201]&gt;</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/availability/calculate/</arg>
+<arg>json=${PAYLOAD}</arg>
+<arg>headers=${CSRF_HEADER}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.268766" elapsed="0.023976"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.293195" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${RESPONSE.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.292864" elapsed="0.000389"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.293699" level="INFO">${REPORT_ID} = 4</msg>
+<arg>${REPORT_ID}</arg>
+<arg>${RESPONSE.json()['id']}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.293346" elapsed="0.000413"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${RESPONSE.json()['total_available_hours']} &lt; 168.0</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.293838" elapsed="0.000338"/>
+</kw>
+<status status="PASS" start="2025-09-27T00:48:05.267906" elapsed="0.026341"/>
+</test>
+<test id="s1-t5" name="Test Use Case 5: Export Report as CSV" line="67">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:48:05.301771" level="INFO">GET Request : url=http://127.0.0.1:8000/api/v1/availability/4/export-csv/ 
+ path_url=/api/v1/availability/4/export-csv/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Cookie': 'csrftoken=GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8; sessionid=yzg2kbotw6yitckphay8yacfllz42glr'} 
+ body=None 
+ </msg>
+<msg time="2025-09-27T00:48:05.301875" level="INFO">GET Response : url=http://127.0.0.1:8000/api/v1/availability/4/export-csv/ 
+ status=200, reason=OK 
+ headers={'Date': 'Fri, 26 Sep 2025 23:48:05 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'text/csv', 'Content-Disposition': 'attachment; filename="availability_report_2025-10-06_4.csv"', 'Vary': 'Accept, Cookie', 'Allow': 'GET, HEAD, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '5721', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body=REPORT SUMMARY,
+User,testuser_k3clop6f
+Week Start,2025-10-06
+Total Available Hours,167.00
+Availability Ratio,0.994
+
+Day,Hour (24h),Availability Status
+Monday,00:00 - 01:00,Available
+Monday,01:00 - 02:00,Available
+Monday,02:00 - 03:00,Available
+Monday,03:00 - 04:00,Available
+Monday,04:00 - 05:00,Available
+Monday,05:00 - 06:00,Available
+Monday,06:00 - 07:00,Available
+Monday,07:00 - 08:00,Available
+Monday,08:00 - 09:00,Available
+Monday,09:00 - 10:00,Available
+Monday,10:00 - 11:00,Busy
+Monday,11:00 - 12:00,Available
+Monday,12:00 - 13:00,Available
+Monday,13:00 - 14:00,Available
+Monday,14:00 - 15:00,Available
+Monday,15:00 - 16:00,Available
+Monday,16:00 - 17:00,Available
+Monday,17:00 - 18:00,Available
+Monday,18:00 - 19:00,Available
+Monday,19:00 - 20:00,Available
+Monday,20:00 - 21:00,Available
+Monday,21:00 - 22:00,Available
+Monday,22:00 - 23:00,Available
+Monday,23:00 - 24:00,Available
+Tuesday,00:00 - 01:00,Available
+Tuesday,01:00 - 02:00,Available
+Tuesday,02:00 - 03:00,Available
+Tuesday,03:00 - 04:00,Available
+Tuesday,04:00 - 05:00,Available
+Tuesday,05:00 - 06:00,Available
+Tuesday,06:00 - 07:00,Available
+Tuesday,07:00 - 08:00,Available
+Tuesday,08:00 - 09:00,Available
+Tuesday,09:00 - 10:00,Available
+Tuesday,10:00 - 11:00,Available
+Tuesday,11:00 - 12:00,Available
+Tuesday,12:00 - 13:00,Available
+Tuesday,13:00 - 14:00,Available
+Tuesday,14:00 - 15:00,Available
+Tuesday,15:00 - 16:00,Available
+Tuesday,16:00 - 17:00,Available
+Tuesday,17:00 - 18:00,Available
+Tuesday,18:00 - 19:00,Available
+Tuesday,19:00 - 20:00,Available
+Tuesday,20:00 - 21:00,Available
+Tuesday,21:00 - 22:00,Available
+Tuesday,22:00 - 23:00,Available
+Tuesday,23:00 - 24:00,Available
+Wednesday,00:00 - 01:00,Available
+Wednesday,01:00 - 02:00,Available
+Wednesday,02:00 - 03:00,Available
+Wednesday,03:00 - 04:00,Available
+Wednesday,04:00 - 05:00,Available
+Wednesday,05:00 - 06:00,Available
+Wednesday,06:00 - 07:00,Available
+Wednesday,07:00 - 08:00,Available
+Wednesday,08:00 - 09:00,Available
+Wednesday,09:00 - 10:00,Available
+Wednesday,10:00 - 11:00,Available
+Wednesday,11:00 - 12:00,Available
+Wednesday,12:00 - 13:00,Available
+Wednesday,13:00 - 14:00,Available
+Wednesday,14:00 - 15:00,Available
+Wednesday,15:00 - 16:00,Available
+Wednesday,16:00 - 17:00,Available
+Wednesday,17:00 - 18:00,Available
+Wednesday,18:00 - 19:00,Available
+Wednesday,19:00 - 20:00,Available
+Wednesday,20:00 - 21:00,Available
+Wednesday,21:00 - 22:00,Available
+Wednesday,22:00 - 23:00,Available
+Wednesday,23:00 - 24:00,Available
+Thursday,00:00 - 01:00,Available
+Thursday,01:00 - 02:00,Available
+Thursday,02:00 - 03:00,Available
+Thursday,03:00 - 04:00,Available
+Thursday,04:00 - 05:00,Available
+Thursday,05:00 - 06:00,Available
+Thursday,06:00 - 07:00,Available
+Thursday,07:00 - 08:00,Available
+Thursday,08:00 - 09:00,Available
+Thursday,09:00 - 10:00,Available
+Thursday,10:00 - 11:00,Available
+Thursday,11:00 - 12:00,Available
+Thursday,12:00 - 13:00,Available
+Thursday,13:00 - 14:00,Available
+Thursday,14:00 - 15:00,Available
+Thursday,15:00 - 16:00,Available
+Thursday,16:00 - 17:00,Available
+Thursday,17:00 - 18:00,Available
+Thursday,18:00 - 19:00,Available
+Thursday,19:00 - 20:00,Available
+Thursday,20:00 - 21:00,Available
+Thursday,21:00 - 22:00,Available
+Thursday,22:00 - 23:00,Available
+Thursday,23:00 - 24:00,Available
+Friday,00:00 - 01:00,Available
+Friday,01:00 - 02:00,Available
+Friday,02:00 - 03:00,Available
+Friday,03:00 - 04:00,Available
+Friday,04:00 - 05:00,Available
+Friday,05:00 - 06:00,Available
+Friday,06:00 - 07:00,Available
+Friday,07:00 - 08:00,Available
+Friday,08:00 - 09:00,Available
+Friday,09:00 - 10:00,Available
+Friday,10:00 - 11:00,Available
+Friday,11:00 - 12:00,Available
+Friday,12:00 - 13:00,Available
+Friday,13:00 - 14:00,Available
+Friday,14:00 - 15:00,Available
+Friday,15:00 - 16:00,Available
+Friday,16:00 - 17:00,Available
+Friday,17:00 - 18:00,Available
+Friday,18:00 - 19:00,Available
+Friday,19:00 - 20:00,Available
+Friday,20:00 - 21:00,Available
+Friday,21:00 - 22:00,Available
+Friday,22:00 - 23:00,Available
+Friday,23:00 - 24:00,Available
+Saturday,00:00 - 01:00,Available
+Saturday,01:00 - 02:00,Available
+Saturday,02:00 - 03:00,Available
+Saturday,03:00 - 04:00,Available
+Saturday,04:00 - 05:00,Available
+Saturday,05:00 - 06:00,Available
+Saturday,06:00 - 07:00,Available
+Saturday,07:00 - 08:00,Available
+Saturday,08:00 - 09:00,Available
+Saturday,09:00 - 10:00,Available
+Saturday,10:00 - 11:00,Available
+Saturday,11:00 - 12:00,Available
+Saturday,12:00 - 13:00,Available
+Saturday,13:00 - 14:00,Available
+Saturday,14:00 - 15:00,Available
+Saturday,15:00 - 16:00,Available
+Saturday,16:00 - 17:00,Available
+Saturday,17:00 - 18:00,Available
+Saturday,18:00 - 19:00,Available
+Saturday,19:00 - 20:00,Available
+Saturday,20:00 - 21:00,Available
+Saturday,21:00 - 22:00,Available
+Saturday,22:00 - 23:00,Available
+Saturday,23:00 - 24:00,Available
+Sunday,00:00 - 01:00,Available
+Sunday,01:00 - 02:00,Available
+Sunday,02:00 - 03:00,Available
+Sunday,03:00 - 04:00,Available
+Sunday,04:00 - 05:00,Available
+Sunday,05:00 - 06:00,Available
+Sunday,06:00 - 07:00,Available
+Sunday,07:00 - 08:00,Available
+Sunday,08:00 - 09:00,Available
+Sunday,09:00 - 10:00,Available
+Sunday,10:00 - 11:00,Available
+Sunday,11:00 - 12:00,Available
+Sunday,12:00 - 13:00,Available
+Sunday,13:00 - 14:00,Available
+Sunday,14:00 - 15:00,Available
+Sunday,15:00 - 16:00,Available
+Sunday,16:00 - 17:00,Available
+Sunday,17:00 - 18:00,Available
+Sunday,18:00 - 19:00,Available
+Sunday,19:00 - 20:00,Available
+Sunday,20:00 - 21:00,Available
+Sunday,21:00 - 22:00,Available
+Sunday,22:00 - 23:00,Available
+Sunday,23:00 - 24:00,Available
+ 
+ </msg>
+<msg time="2025-09-27T00:48:05.302087" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/availability/${REPORT_ID}/export-csv/</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.294782" elapsed="0.007347"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.302634" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${RESPONSE.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.302272" elapsed="0.000427"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.headers['Content-Type']}</arg>
+<arg>text/csv</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.302800" elapsed="0.000266"/>
+</kw>
+<status status="PASS" start="2025-09-27T00:48:05.294445" elapsed="0.008693"/>
+</test>
+<test id="s1-t6" name="Test Use Case 6: Export Report as PDF" line="73">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-09-27T00:48:05.324577" level="INFO">GET Request : url=http://127.0.0.1:8000/api/v1/availability/4/export-pdf/ 
+ path_url=/api/v1/availability/4/export-pdf/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Cookie': 'csrftoken=GM5mAcDwbMKX2VXnuEZvVW5Xep2Tvmf8; sessionid=yzg2kbotw6yitckphay8yacfllz42glr'} 
+ body=None 
+ </msg>
+<msg time="2025-09-27T00:48:05.398227" level="INFO">GET Response : url=http://127.0.0.1:8000/api/v1/availability/4/export-pdf/ 
+ status=200, reason=OK 
+ headers={'Date': 'Fri, 26 Sep 2025 23:48:05 GMT', 'Server': 'WSGIServer/0.2 CPython/3.13.2', 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="availability_report_2025-10-06_4.pdf"', 'Vary': 'Accept, Cookie', 'Allow': 'GET, HEAD, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '8438', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body=%PDF-1.4
+%���� ReportLab Generated PDF document http://www.reportlab.com
+1 0 obj
+&lt;&lt;
+/F1 2 0 R /F2 3 0 R
+&gt;&gt;
+endobj
+2 0 obj
+&lt;&lt;
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+&gt;&gt;
+endobj
+3 0 obj
+&lt;&lt;
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+&gt;&gt;
+endobj
+4 0 obj
+&lt;&lt;
+/Contents 12 0 R /MediaBox [ 0 0 612 792 ] /Parent 11 0 R /Resources &lt;&lt;
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+&gt;&gt; /Rotate 0 /Trans &lt;&lt;
+
+&gt;&gt; 
+  /Type /Page
+&gt;&gt;
+endobj
+5 0 obj
+&lt;&lt;
+/Contents 13 0 R /MediaBox [ 0 0 612 792 ] /Parent 11 0 R /Resources &lt;&lt;
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+&gt;&gt; /Rotate 0 /Trans &lt;&lt;
+
+&gt;&gt; 
+  /Type /Page
+&gt;&gt;
+endobj
+6 0 obj
+&lt;&lt;
+/Contents 14 0 R /MediaBox [ 0 0 612 792 ] /Parent 11 0 R /Resources &lt;&lt;
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+&gt;&gt; /Rotate 0 /Trans &lt;&lt;
+
+&gt;&gt; 
+  /Type /Page
+&gt;&gt;
+endobj
+7 0 obj
+&lt;&lt;
+/Contents 15 0 R /MediaBox [ 0 0 612 792 ] /Parent 11 0 R /Resources &lt;&lt;
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+&gt;&gt; /Rotate 0 /Trans &lt;&lt;
+
+&gt;&gt; 
+  /Type /Page
+&gt;&gt;
+endobj
+8 0 obj
+&lt;&lt;
+/Contents 16 0 R /MediaBox [ 0 0 612 792 ] /Parent 11 0 R /Resources &lt;&lt;
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+&gt;&gt; /Rotate 0 /Trans &lt;&lt;
+
+&gt;&gt; 
+  /Type /Page
+&gt;&gt;
+endobj
+9 0 obj
+&lt;&lt;
+/PageMode /UseNone /Pages 11 0 R /Type /Catalog
+&gt;&gt;
+endobj
+10 0 obj
+&lt;&lt;
+/Author (\(anonymous\)) /CreationDate (D:20250927004805+01'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20250927004805+01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title (\(anonymous\)) /Trapped /False
+&gt;&gt;
+endobj
+11 0 obj
+&lt;&lt;
+/Count 5 /Kids [ 4 0 R 5 0 R 6 0 R 7 0 R 8 0 R ] /Type /Pages
+&gt;&gt;
+endobj
+12 0 obj
+&lt;&lt;
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1356
+&gt;&gt;
+stream
+Gat%d9lCt@%#46I'm"I"GVblYorUOVJYG&lt;G&amp;WfY96;?RmM&amp;`@Tgqs**_qF")(+Kh26F,VAjm^sV=+kc`l26,'s/-*uhQ55m+$bBSX#gK&amp;E,,'(qL5jIHN@+aPD[q&amp;EB^;D\c&amp;.Y&gt;R#&amp;A&gt;k=%Y0a\Pr@LTDZp"_juqsF7SqsF@P8_n9umIj%m\(dtDk&amp;&gt;]1D"bVlZ(JJ:DrL,L&gt;('GP-$F^'5L2DY^s;+UontqEilP8ub&gt;h8!+#]TAC7"Itn^jG;FVrVCG?f&amp;d-/EIg:V4[GiC5Dc&amp;E9AUEiE@q#Ut7'+0TS6a86l(oe;DD\bu6f-1[/is,[JhANT,`Gq.lG[=(s!2Y?D!R%qRDM[253,=!.P*PCrd_AKq?0n;;LB!AJL^aH=E[6oi:g-i@+W4V/#(k[jjWHLtO7-@d6:TXi9?RVqpBa;d,Z^[5`L@'o(K&lt;`S&gt;EaQ$,Y+O?81Kj@&amp;_+UgigpMO]N;MqoNFE(L@#1_7TC)+Ej#Xf:eaXT%m]H(lLB*_eD[A&amp;nlgF'\(QnBPRS`=&gt;m'CK(+Wi?K#&lt;-n9G'!)J$_0cYXcnlH@3IlKdjM+@64uEg8ZK!++GoKLe.NXU)aQq[_ErbuY"M)-6BZ.N)+bPY![R;aP$0%TnNt9ZYRhpKk`bd%NceCd=:uAN,`-p^43+T9KT7?e+[D4?-\5E\ePaFg@3In!Ytq+W37]FM@nBc.1(!.s$'bcfK$^bJKK&lt;W%Kc(is&amp;CP:[2ii_%.hdRLR[&amp;P&amp;a"-f&amp;/!UCL_[+LZ6E&amp;oZqW!i5KHqZs.g_o0=6P]H.Zoj\;.ruC6638V+0SWf,`+joOq?o'L&amp;Q=n&amp;g&lt;)J3gPFqa"-f&amp;/!UB3XO+3tKK&lt;G55@1&lt;W87I74,pCe.$N9Ke,si4rF_hdZ*Nu&gt;)?E$=^!_MTX&amp;t1jf:&amp;e!k.M7gHTjpZ-lARV!)+u8B&amp;gqcP#u-tqVE\Ri6qCd@N[:Bu1Y222/=#iunroK`C7&amp;86HJBK$-ri:f=bfU[.&amp;.TA&lt;8id+SPa"OM'GJ57hs&lt;od"sNi:)n]sE`D"V`uH`glbqaIaAIY4*cgCFeOZ67KejcibT*6ID&lt;g:JhHVrf^'4?ns8-'YA_d9PK7DX&amp;Sd0RWK&gt;CU%0+"1FCNcRIoOW/Dcq/TiFAh:p,og:3YmOuC+pT]n*D&gt;ID&amp;h\l:!eZdEX&gt;pJ:iE:41&gt;/IT-(pjFMjqpq3NiY5F/J2-,$sFjZjqtIYA'H`A$,`3Ack;d+f;IaXZ/un16tFOsBF3"RA'bjS292@9J2PAt&amp;hpWR(pl\?bqWmg^m\c[&amp;rniiTHt"^N^6&lt;OhHZ\AO0&amp;)#C)pI?aNVZ;`\s@U2f$Q_;To!%9]\cA^79X$?p25K`(^,%\Td/1(B4DhShik~&gt;endstream
+endobj
+13 0 obj
+&lt;&lt;
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1191
+&gt;&gt;
+stream
+Gat%$?#LBB%"-C)fLMmi_u%-f)b&gt;L4GQCS!\^2$f[?W-A`4tKJ[5SjNZ&lt;'nmph$%a.!*,t]S$1Aqu8=YcFr#gZe+(0i3k0!durM[cFqpAh[c&lt;G^9%d-lseWep&gt;a&gt;"TXNq$F"&lt;r]m-_V0me2AR^kEVl&lt;o#dM^-B30ZNKhYgF93/&gt;q_;nIWWZM-%tV7&lt;4C\p-elu-O3&lt;GG:Yg3][^1In'p^bF:nIj"EsHQ3I[ok"&gt;-^B+q28Srhek&amp;1h]2Y`J$;i)C:(k%D?6l@WYKD+&gt;,g@nKp^]5DT.6GKj'F9EjT!nB"*:k]P`F,N)jDr=s7LeJ6%8&gt;Kj'F9]J[.Alk[r?e?/M6f]L^&amp;&gt;@r$dBI0WY\A`-X=_#Y!D?6kMh+F/nD(aDl1:(1M.n-pFAn%6n27C`q(=5\(Xe_B;k$X0#1HeH:Y&gt;8A?0j4U!Cl.Cjg3S2$Ef817&gt;-5&amp;@VPe,IoP)K#7P!"-&gt;@n).[R$Oogg[XRXg)GLTP5A;C!/(t/(#8&gt;Ad4^46(bU@@^P-sZ"7O?BcH\Yb:SU:iY"A,lI5:o:A$nXTV-fY-t(26ENqs=&amp;*&lt;qi"S@ptMsd?N]+&lt;m&amp;70N7=E/X-/&lt;P&amp;e$!p'OVHuP#3,HQ&amp;1`!*^dK7593(&gt;XbTkENMBf4!%0_q_!_#cg+dbQYQ`K74Ep(&gt;VKgkENLjq[U+!5-d&gt;LbahjZ\4--(m5\bG`2:F(\rU7F.&lt;?lf*,a/P^dLqS40dgbMsA2=HVTtjZ/BSZm\AEUb1qj@L0JaAaduGn:96A/UAKc?S2,:tYMg8QLUZH2\J%UF\#;JkHVB8WZ-TMkOB-]tM)qo`&lt;+A8$4eP36fO;)YBBd@&lt;;Eqk.=D-j9#`Z0;9/$S!T$'7.YP^VMGVAgYrc_)G@6_EXMr4JN/\#$ZE6n6tIGBn1SQe3M02L4&amp;mnl=i(2O8.]b_*AQ;.Dq""6S&lt;HSL'#"L&amp;[ELdE#&lt;!I,cJ"Ts#bi`HV^$?7U$OG,Y0"%Y`uMZEr(Nl:u`MSi"J2'J"!!/_?.@K9Pe@kiK^`3C/0(ZJON&amp;6C$8`;lnLa'o$;Lgr/i,fHr)5S2pW$im(_SA[c.i`HV^$?7U$OG,Y0",K8`MZJ&amp;GNWfN6(#i=(TF#Th##Kt4('@)o*/ah#+caMA5`3HNHkkA94&gt;#Yt.H2f*.D@n&gt;eVOe`58P?s7n`.qGCOTnj*f-EN?+^ZN4nZjGPDOaHId0~&gt;endstream
+endobj
+14 0 obj
+&lt;&lt;
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1199
+&gt;&gt;
+stream
+Gat%$?#(-?&amp;:D6"0om6o3^)BdRt;6j(NmRWBJ,a8"?]QOh`F!Q4kE6AoFR1tg8[ouEO?7^?u5dmp@mmd0s&lt;P-iW9NJZX"LU9/,+Io4HbUfE!FpXG]g#pf%L`ojpiUQXKZ*8M5d3%c;F?FW`b]SG,[ujrE8#p?)3fBA5YO')&amp;ZVc]MGFb'(m;S'?+pSpfI&amp;4m[Z)?2f7i[Tg)/r?og4.:)9;95De_EM:*1Y(m^W#dKH'qL*X1GPU?&lt;s+DAXQqSuF'5ucX*&lt;oACC@*a5KjbZ:d7)0MN^D/0!Md/E'H5@fM-_3VUb)X;n`)#SU5S$+3XSG1FiBBQ_BZW?OO[3!g*0ph30"%R[&gt;h5u[Oc8-0M36Qi=T@[U96(@&gt;6KnJa&amp;0uID.?JqQDH/77Od@GBqi$jW,'T)('123j!\?1[aD'ibL.0"7KGT2iauq@osH(pd'eYu[cJ*$Pd%0'b&gt;P!M$fc*I,J#:+?!ETrD-Iiq&gt;9;0\M&lt;`g#'PQ7&lt;Gh_eF/rE`^QDHk$(&lt;5*p7s%Tn?!ETrD-Iiq&gt;9;0\Z231;'PQ7&lt;Gh_eF.Z,nEg9ME+gVS3inq\nj;V.525hd'ogQk?O;1cBf/-Xb9DS0h36l3hACWfUGgX_@n/W]+iJ@`0?FgQ#AGh_eF.Z.H\[:Q&gt;4D&lt;o3rQ:H$oZF[IqSN$lEa='Z[C?+&lt;Y=;Qa^5nFZ(S:YuR(W&lt;N"+=*I:"7_1"L]_3"&amp;l+sIGXN@dH=[X#:7QfY6kohse-0:&gt;`9E%IF?u(qX=Tl$qs]Co85PV;KbGgU*mk/]b-J&lt;linVEr\fdXs.gm_"4ZoGGZ7&lt;IY\qq*H3mlHY/1Tm2%Qes1VGZ#EdS66Qi^?:hZD+.a3TA8!;sc@5Z_na$d8"75j6X&amp;5l"]5LhKSYeQ6+S*Hs=FZp-dN$HZOS;HY5Om/+dp"0@SYhGLScJLs&amp;,%SPWD'6n7.`+Qu3cJuG=UTa7BE:3^3,TG&amp;Hl&amp;MOeu@?-uo=dUGt6knbh3Y@$*Jke:6Nh@%dRbO$O.)Hri-^$/Rd"s0p&amp;TkktEs/$6@?,jE^C##bS]JYf5pqgL8'm)8bRns6$$-6?YgV&lt;ubZthC#We*%3J(!o@?-uo?C2u$":0&amp;O9Y`.%&amp;Tj`QEs/%)_AkihJhT^A#q*q/FM^XkHSSr^pF:)SGuolLb'&amp;[2:4@?FK?;G.Qg8B8mH/;):3Shq\7FJ6HHY*!p1&amp;:G!/6Wf[/~&gt;endstream
+endobj
+15 0 obj
+&lt;&lt;
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1220
+&gt;&gt;
+stream
+Gat%dh2WI4&amp;;BT9.=;GadT$%?mH+m(JqUXbbR8506&amp;Bb0Yp(=ISh&lt;g(Vh&gt;]Y=JO]?l&gt;p_*)pK7)D@UbP\GuTr.&gt;7/niL&lt;mg3/6b2^j4,^qK)GjHMR0LlK!,)[$QmJZf/R2*BVf;_g$'GXLX#I5;"&amp;(L)MMZPdXW196pL62S=BVU&amp;JZ%`TC$i(NnGWofd7D*%KKXI0s&gt;pH@Gnk_nTQ6l\BG-nNUZ_XUQMADi)?S_#*s*GsCcnI-WOk^AIfdrSteba1#E[GEBKY(l0%kJ:Q,uLp^V5PsGs=FoVPWEtE3)5Y;)DeCXd)jHtR5$O2b$#bo&lt;KE.UKHK4kVs_I-KjfDu,.k9.DKeoH:L2.Hk&amp;O&gt;mEK((@!i@5VO"&amp;&lt;J^RBa\?$3uD!SFoVQbF-%CMCY[&gt;M9"kJoott./SgPq$,u"]j;dq&lt;q8us_(&gt;"Nd%5Y`L=fGb/&lt;0T'%*P&lt;qN4#`ELhaTnRhAgP\/c*Lk2(eRLVMHW)nTThH/?&amp;3&gt;ME,&lt;ck\eEP?-ajd!-,HiD/*UA6o=`d[0GK7OCKAm&gt;R-)#c[9tD9a&amp;]=&lt;q_?@i@r$Wl;M/Ip&lt;mi"Vk&lt;#uW?mn)V&gt;I1W&lt;[QIo6XT_)6E,&lt;eA]%Z_&amp;[C$bY-,QoE/*grno@;Dq0GK7OCKB$:QKP&lt;N[6Q/1J7E@qf%$)LX0&amp;d;-l%cE=Vo@Heq0S034&lt;F)3;HYaL6CKIRW[TU@kANiKO\fKL!u*j?mp]K&lt;ilbm+)?F(\A&gt;F-lbWtL=tl0]NicG#c9Ts4Tk$-kAmIA"=UTtIi7OK@i&gt;cA[1R,3,o9dCr\c)/?6DDJRA!"*+,Y,[9e@0B$3j?QZ0P\Q\e@0DrWE&lt;&gt;B)!/Oee@0Dj.9KJd(n!)eorXa2&lt;`0jPOK*6XbS+&amp;%$7&lt;-]Sp%i&lt;:V#rke+r`(DqY-dj&amp;u&lt;/n*Eqs$FfoEO5]bW7ITfiAUSjUDSFF(m]pn4FRHIh@;kro825dGGJ[Jk+ZCd=`=S1O/]A:R%@=qbEk((+%&amp;(8k;@K8/iDL(-]AZWr+hHW1%"\=q\e!-3%@:N0],NBA&amp;;hDZ`=S1O0#\CS%@=qbFL^:-%&amp;(8k;@HuX_ke2:G/L-n6?L,A(]sNlF&lt;;Qn)_T)@WZ*S0&amp;;hDZ`=S1O0#\CS%@=p752:*+L="^p.&gt;G(=iDL(-]AZWr+hHW1%"\=q\dq$\m)/iSrNFYge#1ZCGQ+Xa+3]3e]mMFaXoGp.Mu,0!;qYpNMS:q7Qi78Wrr&gt;N(f?s~&gt;endstream
+endobj
+16 0 obj
+&lt;&lt;
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 700
+&gt;&gt;
+stream
+Gat%bd;%Gj&amp;4PLT(%^&amp;^ibCrG-2"BoZr$VI`]p\APL?ZSBHRW[qeD@X/4tN6/A(UhY'^cGb9-qO5?NAaS,baUnEpqk'!+$BDK`75Ko:*M1SH3OVV*LASECp'0rN!Dkb)5A6G[rWs#&amp;Wo*S)c,f$6"c3T&amp;_$_p-kFb1!Yl)Ob,+@[C/cT:]D&lt;)C5dW$/SoNh#0A5I1,?mXCqQ)K:-3_Rdf/N3!U,gojp9=DYCS'qnqIQp[N3F]RE:%,f)!&amp;6s'_^,`PB+Miu!`-&amp;Dm85pelR-BTlP&amp;t&gt;+2+tNjjJn#GHU*Lm]P)-=R0F&lt;_1A;cVhBG2o56GOji9Od]@(8EXi&lt;EKNo`!o&lt;'(+%(s9PbFZ![dGIP%@Eud4#`5KnY%KQ8+6NP?&gt;37`)^:i@$32jZ$R+AW(_"BU&lt;H^Zce,ft8!9*f'ckGM`USUUHf&gt;s.Bb_Z2GbsqT%=&gt;DGPu/8:a_[gDD"W.,lBF:D*Q_]cnR-LOk,NU+53kb:.Oh7[Sqnj0qCEj/W&amp;,QoYNM+q?siL!&lt;_cHJ5Nh%**3p!CjJ[3SbIf#(/majuX_7KAdhZ*UU7,QH)I0X=kT7Z2CO#+_\S)H&lt;\je;U"$:QVC'.CIc:)NecCBgD=?:LU&gt;/PLF&gt;dO]Xk$59Jl-7IbSiZ&gt;I=bk9_CrX3\op`)Ns6n7?pT0Z@)mR&amp;aEjNG"[!iLnFQBn(^6K4&amp;rr=DaPuI~&gt;endstream
+endobj
+xref
+0 17
+0000000000 65535 f 
+0000000073 00000 n 
+0000000114 00000 n 
+0000000221 00000 n 
+0000000333 00000 n 
+0000000528 00000 n 
+0000000723 00000 n 
+0000000918 00000 n 
+0000001113 00000 n 
+0000001308 00000 n 
+0000001377 00000 n 
+0000001661 00000 n 
+0000001745 00000 n 
+0000003193 00000 n 
+0000004476 00000 n 
+0000005767 00000 n 
+0000007079 00000 n 
+trailer
+&lt;&lt;
+/ID 
+[&lt;d7da7932e1114ea053fe7caa7f001881&gt;&lt;d7da7932e1114ea053fe7caa7f001881&gt;]
+% ReportLab generated PDF document -- digest (http://www.reportlab.com)
+
+/Info 10 0 R
+/Root 9 0 R
+/Size 17
+&gt;&gt;
+startxref
+7870
+%%EOF
+ 
+ </msg>
+<msg time="2025-09-27T00:48:05.398629" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<var>${RESPONSE}</var>
+<arg>${SESSION_ALIAS}</arg>
+<arg>/availability/${REPORT_ID}/export-pdf/</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.303620" elapsed="0.095056"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2025-09-27T00:48:05.399119" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${RESPONSE.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.398796" elapsed="0.000393"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${RESPONSE.headers['Content-Type']}</arg>
+<arg>application/pdf</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2025-09-27T00:48:05.399276" elapsed="0.000268"/>
+</kw>
+<status status="PASS" start="2025-09-27T00:48:05.303320" elapsed="0.096411"/>
+</test>
+<status status="PASS" start="2025-09-27T00:48:04.151579" elapsed="1.248476"/>
+</suite>
+<statistics>
+<total>
+<stat pass="6" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Api Use Cases" id="s1" pass="6" fail="0" skip="0">Api Use Cases</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
